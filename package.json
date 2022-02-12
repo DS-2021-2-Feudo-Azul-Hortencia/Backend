@@ -1,0 +1,18 @@
+{
+  "name": "Backend",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/DS-2021-2-Feudo-Azul-Hortencia/Backend.git",
+  "author": "Joberth Rogers <joberth.rogers18@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
