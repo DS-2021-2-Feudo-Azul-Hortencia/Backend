@@ -9,13 +9,13 @@ const User = require('../models/User')
 
 router.post('/registration', async (req, res) => {
     const { email } = req.body
-    //const email = User.email
+
     if (await User.findOne({ email }))
         return res.status(500).json({ error: 'E-mail já cadastrado' })
 
-    const { password, pswConfirm } = req.body
+    const { password, passwordConfirm } = req.body
     //Confirmando senha
-    if (password !== pswConfirm)
+    if (password !== passwordConfirm)
         return res.status(500).json({ error: 'As senhas devem ser iguais' })
     try {
       const user = await User.create(req.body)
