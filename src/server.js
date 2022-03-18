@@ -13,7 +13,7 @@ app.use(
 app.use(express.json())
 
 app.get("/", (req, res) => {
-    res.json({ message:'Teste'});
+    res.json({ message:'Teste'})
 });
 
 //outras rotas
