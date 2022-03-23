@@ -24,7 +24,7 @@ const userRoutes = require('./routes/userRoutes')
 app.use('/user', userRoutes)
 
 const travelRoutes = require('./routes/travelRoutes')
-app.use('/travel', travelRoutes)
+app.use('/Travel', travelRoutes)
 
 
 

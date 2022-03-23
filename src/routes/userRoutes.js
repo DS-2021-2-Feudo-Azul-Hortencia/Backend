@@ -8,12 +8,23 @@ const User = require('../models/User')
 //Create = Criação do dado
 
 router.post('/registration', async (req, res) => {
-    const { email } = req.body
+    const { email, name, password, passwordConfirm } = req.body
+
+    if(!name){
+        return res.status(422).json({ error: 'o nome é obrigatório'})
+    }
+
+    if(!password){
+        return res.status(422).json({ error: 'a senha é obrigatória'})
+    }
+    if(!email){
+        return res.status(422).json({ error: 'o email é obrigatório'})
+    }
 
     if (await User.findOne({ email }))
         return res.status(500).json({ error: 'E-mail já cadastrado' })
 
-    const { password, passwordConfirm } = req.body
+
     //Confirmando senha
     if (password !== passwordConfirm)
         return res.status(500).json({ error: 'As senhas devem ser iguais' })
@@ -27,7 +38,11 @@ router.post('/registration', async (req, res) => {
     })
 
     } catch (error) {
-      res.status(500).json({ erro: error })
+      console.log(error)
+
+      res.status(500).json({
+          msg: 'aconteceu um erro no servidor , tente mais tarde!'
+     })
     }
   })
 
@@ -92,6 +107,15 @@ router.post('/authenticate', async(req, res) => {
     const { email, password } = req.body
 
     const user = await User.findOne({ email })
+
+    if(!email){
+        return res.status(422).json({ error: 'o email é obrigatório'})
+    }
+
+    if(!password){
+        return res.status(422).json({ error: 'a senha é obrigatória'})
+    }
+
 
     if (!user)
         return res.status(500).json({ error: 'Usuário não foi encontrado'})

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const User = mongoose.model('Travel', {
+const Travel = mongoose.model('Travel', {
   travelName: String,
   country: String,
   city: String,

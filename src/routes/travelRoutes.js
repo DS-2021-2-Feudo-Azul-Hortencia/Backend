@@ -8,3 +8,4 @@ const Travel = require('../models/Travel')
 router.post('/planning', async (req, res) => {
 
 })
+module.exports = router
