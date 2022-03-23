@@ -23,10 +23,10 @@ const userRoutes = require('./routes/userRoutes')
     //ou seja, o que estiver no arquivo localizado em './routes/userRoutes'
 app.use('/user', userRoutes)
 
-/*
-const projectRoutes = require('./app/routes/projectRoutes')
-app.use('/projects', projectRoutes)
-*/
+const travelRoutes = require('./routes/travelRoutes')
+app.use('/travel', travelRoutes)
+
+
 
 mongoose.connect(
     `mongodb+srv://appviagem:senha123@cluster0.asirv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
