@@ -28,6 +28,11 @@ app.use('/travel', travelRoutes)
 
 
 
+ //entrega uma porta
+ app.listen(PORT, () => {
+    console.log(`Server running at port ${PORT}`);
+});
+
 mongoose.connect(
     `mongodb+srv://appviagem:senha123@cluster0.asirv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
     )
@@ -35,10 +40,7 @@ mongoose.connect(
     .then(() => {
         console.log('Conectado ao MongoDB!')
         
-        //entrega uma porta
-        app.listen(PORT, () => {
-            console.log(`Server running at port ${PORT}`);
-        });
+        
     })
     //caso contrário:
     .catch((err) => (console.log(err)))
