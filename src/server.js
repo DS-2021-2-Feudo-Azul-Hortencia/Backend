@@ -26,8 +26,6 @@ app.use('/user', userRoutes)
 const travelRoutes = require('./routes/travelRoutes')
 app.use('/Travel', travelRoutes)
 
-
-
  //entrega uma porta
  app.listen(PORT, () => {
     console.log(`Server running at port ${PORT}`);

@@ -1,6 +1,4 @@
 const router = require('express').Router()
-const req = require('express/lib/request')
-const res = require('express/lib/response')
 
 const User = require('../models/User')
 
@@ -77,30 +75,6 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-//Update = Atualização de dado (PUT, PATCH)
-/*
-router.patch('/:id', async(req, res) => {
-
-    const id = req.params.id
-
-    const user = req.body
-
-    try {
-        const updatedUser = await User.updateOne({ _id: id }, user)
-
-        if (updatedUser.matchedCount === 0){
-
-            res.status(422).json({message:'O usuário não foi encontrado.'})
-            return
-        }
-        user.password = undefined
-        res.status(200).json(user)
-    } catch (error) {
-        res.status(500).json({ erro: error })
-    }
-})
-*/
-
 //Autenticação do Usuário
 
 router.post('/authenticate', async(req, res) => {
@@ -127,5 +101,28 @@ router.post('/authenticate', async(req, res) => {
 
     res.json({ user })
 }) 
+
+//Update = Atualização de dado (PUT, PATCH)
+
+router.patch('/changePassword', async(req, res) => {
+
+    const { email, oldPassword, newPassword, confirmPassword } = req.body
+    const user = await User.findOne({ email })
+
+    if (oldPassword !== confirmPassword)
+        return res.status(500).json({ message: "Verifique se as senhas são iguais nos 2 campos" })
+
+    if (oldPassword !== user.password)
+        return res.status(500).json({ message: "Senha incorreta" })
+
+    try {
+        await User.updateOne({ email }, {password: newPassword} )
+   
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).json({ erro: error })
+    }
+})
+
 
 module.exports = router
