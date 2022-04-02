@@ -2,6 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3000;
 const app = express();
+const cors = require("cors");
+
+let corsOptions = {
+    origin: "http://localhost:3000",
+};
+app.use(cors(corsOptions));
 
 // forma de ler JSON
 app.use(
@@ -24,7 +30,10 @@ const userRoutes = require('./routes/userRoutes')
 app.use('/user', userRoutes)
 
 const travelRoutes = require('./routes/travelRoutes')
-app.use('/Travel', travelRoutes)
+app.use('/travel', travelRoutes)
+
+const fileRoutes = require('./routes/fileRoutes')
+app.use('/file', fileRoutes)
 
  //entrega uma porta
  app.listen(PORT, () => {
@@ -37,8 +46,6 @@ mongoose.connect(
     //caso dê certo:
     .then(() => {
         console.log('Conectado ao MongoDB!')
-        
-        
     })
     //caso contrário:
     .catch((err) => (console.log(err)))

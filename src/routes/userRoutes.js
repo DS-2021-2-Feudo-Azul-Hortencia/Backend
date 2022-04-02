@@ -22,8 +22,6 @@ router.post('/registration', async (req, res) => {
     if (await User.findOne({ email }))
         return res.status(500).json({ error: 'E-mail já cadastrado' })
 
-
-    //Confirmando senha
     if (password !== passwordConfirm)
         return res.status(500).json({ error: 'As senhas devem ser iguais' })
     try {
