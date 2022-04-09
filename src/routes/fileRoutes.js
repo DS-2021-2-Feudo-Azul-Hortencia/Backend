@@ -3,8 +3,15 @@ const router = express.Router();
 const processFile = require("../middleware/upload");
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
-// Instantiate a storage client with credentials
-const storage = new Storage({ keyFilename: "google-cloud-key.json" });
+require('dotenv').config()
+
+const storage = new Storage({ 
+  projectId: process.env.GCLOUD_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GCLOUD_STORAGE_SERVICE_ACCOUNT_CLIENT_EMAIL,
+    private_key: process.env.GCLOUD_STORAGE_SERVICE_ACCOUNT_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  }
+ });
 const bucket = storage.bucket("travell-app");
 
 
