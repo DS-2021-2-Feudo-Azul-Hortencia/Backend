@@ -10,7 +10,7 @@ router.post('/planning', async (req, res) => {
       
       const travelId = travel._id
       const userId = travel.user
-      const user = await User.findOne({ _id: userId }) //adicionar erro caso usuário não seja encontrado
+      const user = await User.findOne({ _id: userId })
       const userTravels = user.travels
 
       try {

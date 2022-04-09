@@ -4,6 +4,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 const cors = require("cors");
 
+require('dotenv').config()
+
 let corsOptions = {
     origin: "http://localhost:3000",
 };
@@ -40,8 +42,11 @@ app.use('/file', fileRoutes)
     console.log(`Server running at port ${PORT}`);
 });
 
+const USER = process.env.DB_USER
+const PASSWORD = process.env.DB_PASSWORD
+
 mongoose.connect(
-    `mongodb+srv://appviagem:senha123@cluster0.asirv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    `mongodb+srv://${USER}:${PASSWORD}@cluster0.asirv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
     )
     //caso dê certo:
     .then(() => {
