@@ -11,11 +11,8 @@ router.post('/planning', async (req, res) => {
       const travelId = travel._id
       const userId = travel.user
       const user = await User.findOne({ _id: userId })
-      const userTravels = user.travels
 
       try {
-        userTravels.push(travelId)
-        console.log(userTravels)
         res.json({ message: 'Viagem criada com sucesso!', travel })
       } catch (error) {
         res.status(400).json({ erro: `Não foi possível relacionar a viagem ${travel.travelName} ao usuário: ${userId}` })
@@ -81,7 +78,5 @@ router.get('/deleteAll', async(req, res) => {
       res.status(500).json({ erro: error })
   }
 })
-
-
 
 module.exports = router

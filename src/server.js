@@ -6,10 +6,7 @@ const cors = require("cors");
 
 require('dotenv').config()
 
-let corsOptions = {
-    origin: "http://localhost:3000",
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // forma de ler JSON
 app.use(
@@ -17,6 +14,7 @@ app.use(
         extended: false,
     }),
 )
+
 
 app.use(express.json())
 
@@ -46,11 +44,12 @@ const USER = process.env.DB_USER
 const PASSWORD = process.env.DB_PASSWORD
 
 mongoose.connect(
-    `mongodb+srv://${USER}:${PASSWORD}@cluster0.asirv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-    )
+    `mongodb+srv://appviagem:61LIBLM1J0ex0L8L@cluster0.asirv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    )   
     //caso dê certo:
     .then(() => {
         console.log('Conectado ao MongoDB!')
     })
     //caso contrário:
     .catch((err) => (console.log(err)))
+
