@@ -26,11 +26,11 @@ router.post('/registration', async (req, res) => {
         return res.status(500).json({ error: 'As senhas devem ser iguais' })
     try {
       const user = await User.create(req.body)
-      
+       
       //Fará com que o campo password não apareça quando for chamado  
       //user.password = undefined
   
-      res.json({ message: 'Usuário inserido no sistema com sucesso!', user,
+      res.json({ message: 'Usuário inserido no sistema com sucesso!', user
     })
 
     } catch (error) {
@@ -42,21 +42,26 @@ router.post('/registration', async (req, res) => {
     }
   })
 
+
+
+
   //Read = leitura do dado
 
 router.get('/', async(req, res) => {
     
     try {
+
         const users = await User.find()
 
-        res.status(200).json(users)
+
+        res.status(200).json({msg: 'autenticação foi realizada com sucesso',token})
 
     } catch (error) {
         res.status(500).json({ erro: error })
     }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', checkToken, async (req, res) => {
     //extrair dado da requisição pela url = req.params
     const id = req.params.id
 
@@ -72,6 +77,28 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ erro: error })
     }
 })
+
+//função para checar o token
+function checkToken(req, res, next ) {
+    const authHeader = req.headers['authorization'] //tendo acesso ao token
+    const token = authHeader && authHeader.split(" ")[1]  //pegando o array do token
+
+//caso não venha um token
+    if(!token){
+    return res.status(401).json({msg:' Acesso Negado' })
+    }
+//validando se o token é correto
+  try{
+      const secret =process.env.SECRET
+      jwt.verify(token,secret)
+
+      next()
+
+  }catch(error){
+      res.status(400).json({msg: 'Token inválido'})
+  }
+
+}
 
 //Autenticação do Usuário
 
@@ -94,6 +121,24 @@ router.post('/authenticate', async(req, res) => {
 
     if (password !== user.password)
         return res.status(500).json({ error: 'Senha inválida' })
+
+        try {
+
+            const secret = proces.env.SECRET
+            const token = jwt.sign({
+                id: user._id,
+            },
+             secret,
+            )
+            
+    
+    
+            res.status(200).json({msg: 'autenticação foi realizada com sucesso',token})
+    
+        } catch (error) {
+            res.status(500).json({ erro: error })
+        }   
+
     
     user.password = undefined //não mostrar a senha
 

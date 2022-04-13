@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const PORT = process.env.PORT || 3000;
 const app = express();
 const cors = require("cors");
