@@ -2,6 +2,8 @@ const router = require('express').Router()
 
 const User = require('../models/User')
 
+const jwt = require('jsonwebtoken');
+
 
 //Create = Criação do dado
 
@@ -102,10 +104,8 @@ function checkToken(req, res, next ) {
 
 //Autenticação do Usuário
 
-router.post('/authenticate', async(req, res) => {
+router.post('/authenticate', async (req, res) => {
     const { email, password } = req.body
-
-    const user = await User.findOne({ email })
 
     if(!email){
         return res.status(422).json({ error: 'o email é obrigatório'})
@@ -115,6 +115,7 @@ router.post('/authenticate', async(req, res) => {
         return res.status(422).json({ error: 'a senha é obrigatória'})
     }
 
+    const user = await User.findOne({ email })
 
     if (!user)
         return res.status(500).json({ error: 'Usuário não foi encontrado'})
@@ -122,27 +123,22 @@ router.post('/authenticate', async(req, res) => {
     if (password !== user.password)
         return res.status(500).json({ error: 'Senha inválida' })
 
-        try {
+    try {
 
-            const secret = proces.env.SECRET
-            const token = jwt.sign({
-                id: user._id,
-            },
-             secret,
-            )
-            
-    
-    
-            res.status(200).json({msg: 'autenticação foi realizada com sucesso',token})
-    
-        } catch (error) {
-            res.status(500).json({ erro: error })
-        }   
+        const secret = process.env.SECRET
+        const token = jwt.sign({
+            id: user._id,
+            name: user.name,
+            email: user.email
+        },
+            secret,
+        )
 
-    
-    user.password = undefined //não mostrar a senha
+        res.status(200).json({msg: 'autenticação foi realizada com sucesso', token})
 
-    res.json({ user })
+    } catch (error) {
+        res.status(500).json({ erro: error })
+    }   
 }) 
 
 //Update = Atualização de dado (PUT, PATCH)
