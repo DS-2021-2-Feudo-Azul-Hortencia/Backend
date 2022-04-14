@@ -6,7 +6,7 @@ const maxSize = 2 * 1024 * 1024;
 let processFile = Multer({
   storage: Multer.memoryStorage(),
   limits: { fileSize: maxSize },
-}).single("file");
+}).single("photo");
 
 let processFileMiddleware = util.promisify(processFile);
 
