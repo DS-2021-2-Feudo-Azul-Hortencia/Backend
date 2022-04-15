@@ -4,6 +4,8 @@ const User = require('../models/User')
 
 const jwt = require('jsonwebtoken');
 
+const {checkToken} = require('../middleware/auth')
+
 
 //Create = Criação do dado
 
@@ -88,28 +90,6 @@ router.get('/:id', checkToken, async (req, res) => {
         res.status(500).json({ erro: error })
     }
 })
-
-//função para checar o token
-function checkToken(req, res, next ) {
-    const authHeader = req.headers['authorization'] //tendo acesso ao token
-    const token = authHeader && authHeader.split(" ")[1]  //pegando o array do token
-
-//caso não venha um token
-    if(!token){
-    return res.status(401).json({msg:' Acesso Negado' })
-    }
-//validando se o token é correto
-  try{
-      const secret =process.env.SECRET
-      jwt.verify(token,secret)
-
-      next()
-
-  }catch(error){
-      res.status(400).json({msg: 'Token inválido'})
-  }
-
-}
 
 //Autenticação do Usuário
 
