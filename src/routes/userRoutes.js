@@ -29,11 +29,20 @@ router.post('/registration', async (req, res) => {
     try {
       const user = await User.create(req.body)
        
+    const secret = process.env.SECRET
+        const token = jwt.sign({
+            id: user._id,
+            name: user.name,
+            email: user.email
+        },
+            secret,
+        )
+
+
       //Fará com que o campo password não apareça quando for chamado  
       //user.password = undefined
   
-      res.json({ message: 'Usuário inserido no sistema com sucesso!', user
-    })
+      res.json({ message: 'Usuário inserido no sistema com sucesso!', token})
 
     } catch (error) {
       console.log(error)

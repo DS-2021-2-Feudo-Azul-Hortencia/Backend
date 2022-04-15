@@ -4,7 +4,6 @@ const User = require('../models/User')
 
 
 router.post('/planning', async (req, res) => {
-
     try {
       const travel = await Travel.create(req.body)
       
@@ -23,7 +22,7 @@ router.post('/planning', async (req, res) => {
     }
 })
 
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
   try {
     const travels = await Travel.find()
 
@@ -34,7 +33,7 @@ router.get('/', async(req, res) => {
 }
 })
 
-router.get('/:id', async(req, res) => {
+router.get('/:id', async (req, res) => {
   const userId = req.params.id
   try {
     const travels = await Travel.find({ user: userId })
