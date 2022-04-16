@@ -4,19 +4,10 @@ const User = require('../models/User')
 
 
 router.post('/planning', async (req, res) => {
-
     try {
       const travel = await Travel.create(req.body)
-      
-      const travelId = travel._id
-      const userId = travel.user
-      const user = await User.findOne({ _id: userId })
-
-      try {
+  
         res.json({ message: 'Viagem criada com sucesso!', travel })
-      } catch (error) {
-        res.status(400).json({ erro: `Não foi possível relacionar a viagem ${travel.travelName} ao usuário: ${userId}` })
-      }
 
     } catch (error) {
       res.status(500).json({ erro: error })
@@ -25,7 +16,7 @@ router.post('/planning', async (req, res) => {
 
 router.get('/', async(req, res) => {
   try {
-    const travels = await Travel.find()
+    const travels = await Travel.find({ user: req.query.id })
 
     res.status(200).json(travels)
 

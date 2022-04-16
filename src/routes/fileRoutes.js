@@ -89,10 +89,10 @@ router.post("/upload", upload.any(), async (req, res) => {
 });
 
 router.post("/user", async (req, res) => {
-  const { user, fileName, url } = req.body;
+  const { user, fileName, url, travel } = req.body;
 
   try {
-    await File.create({ user, fileName, url });
+    await File.create({ user, fileName, url, travel });
 
     res.status(200).json({ message: "Arquivo salvo com sucesso" });
   } catch (e) {
@@ -101,10 +101,10 @@ router.post("/user", async (req, res) => {
 });
 
 router.get("/user/all-files", async (req, res) => {
-  const { id } = req.query;
-
+  const { userId, travelId } = req.query;
+  
   try {
-    const files = await File.find({ user: id });
+    const files = await File.find({ user: userId, travel: travelId });
 
     res.status(200).json({ files });
   } catch (e) {
